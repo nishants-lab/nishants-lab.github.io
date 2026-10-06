@@ -1,0 +1,31 @@
+# Host-level robots for nishants-lab.github.io
+# Googlebot reads robots.txt only from the host root, so the crawl
+# directives and sitemap for every project page live here.
+
+User-agent: *
+Allow: /
+
+# Block bulk data scraping of the FairFund datasets
+Disallow: /fairfund/fund-data/
+Disallow: /fairfund/analytics/
+Disallow: /fairfund/nav/
+Disallow: /fairfund/holdings-history/
+
+# Block AI/LLM training crawlers
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+Sitemap: https://nishants-lab.github.io/sitemap.xml
+Sitemap: https://nishants-lab.github.io/fairfund/sitemap.xml
