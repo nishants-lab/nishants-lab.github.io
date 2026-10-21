@@ -11,11 +11,10 @@ Disallow: /fairfund/analytics/
 Disallow: /fairfund/nav/
 Disallow: /fairfund/holdings-history/
 
-# Block AI/LLM training crawlers
+# Block AI training crawlers. Search and user-requested fetchers
+# (OAI-SearchBot, ChatGPT-User, PerplexityBot, Claude-SearchBot) follow * above,
+# so FairFund can appear in ChatGPT/Perplexity/Claude answers and open when shared.
 User-agent: GPTBot
-Disallow: /
-
-User-agent: ChatGPT-User
 Disallow: /
 
 User-agent: CCBot
