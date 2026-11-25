@@ -113,6 +113,11 @@
   let mx = -9999, my = -9999, mvx = 0, mvy = 0, lastMove = 0;
   addEventListener('pointermove', e => { if (e.pointerType === 'touch') return; mvx = e.clientX - (mx < -9000 ? e.clientX : mx); mvy = e.clientY - (my < -9000 ? e.clientY : my); mx = e.clientX; my = e.clientY; lastMove = performance.now(); }, {passive: true});
   document.addEventListener('pointerleave', () => { mx = my = -9999; });
+  let touching = false;
+  const tp = e => { const t = e.touches[0]; if (!t) return; mvx = mx < -9000 ? 0 : t.clientX - mx; mvy = my < -9000 ? 0 : t.clientY - my; mx = t.clientX; my = t.clientY; touching = true; };
+  addEventListener('touchstart', tp, {passive: true});
+  addEventListener('touchmove', tp, {passive: true});
+  addEventListener('touchend', () => { touching = false; mx = my = -9999; }, {passive: true});
   addEventListener('pointerdown', e => {
     const R = 260;
     for (let i = 0; i < N; i++) { const dx = px[i] - e.clientX, dy = py[i] - e.clientY, d = Math.hypot(dx, dy); if (d < R && d > .1) { const f = (1 - d / R) * 26; vx[i] += dx / d * f; vy[i] += dy / d * f; } }
@@ -140,7 +145,7 @@
     const t = (now - t0) / 1000, dim = (mobile && scene !== 'name') ? .38 : 1;
     for (let c = 0; c < 3; c++) color[c] += (COLORS[scene][c] - color[c]) * .05;
     gl.uniform3f(uColor, color[0], color[1], color[2]);
-    const R = mobile ? 0 : 120, R2 = R * R, F = 6.5;
+    const R = mobile ? (touching ? 95 : 0) : 120, R2 = R * R, F = 6.5;
     mvx *= .9; mvy *= .9;
     rot += reduce ? 0 : .0022;
     const sphere = scene === 'sphere', tg = T[scene];

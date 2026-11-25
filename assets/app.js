@@ -58,6 +58,10 @@ else {
 /* particle scenes follow the section in the middle of the screen */
 const sio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && window.NSParticles) NSParticles.setScene(e.target.dataset.scene); }), {rootMargin: '-50% 0px -50% 0px'});
 $$('[data-scene]').forEach(s => sio.observe(s));
+/* background colour follows the section in the middle of the screen */
+const rs = document.documentElement.style;
+const wio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { rs.setProperty('--w', e.target.dataset.wash); rs.setProperty('--ws', e.target.dataset.ws || '.2'); } }), {rootMargin: '-50% 0px -50% 0px'});
+$$('[data-wash]').forEach(s => wio.observe(s));
 
 /* header: hide on scroll down, show on scroll up; mark active link */
 const top = $('#top'); let lastY = 0;
@@ -100,7 +104,7 @@ if (fine && !reduce) {
   });
   const hint = $('#hintMove'); let moved = 0;
   addEventListener('pointermove', () => { if (++moved > 60) hint.classList.add('gone'); }, {passive: true});
-} else { const h = $('#hintMove'); h && h.remove(); }
+} else { const h = $('#hintMove'); if (h) { h.textContent = 'Touch the name'; let n = 0; addEventListener('touchmove', () => { if (++n > 25) h.classList.add('gone'); }, {passive: true}); } }
 
 /* count-up stats */
 const cio = new IntersectionObserver(es => es.forEach(e => {
@@ -159,10 +163,10 @@ $('#copyMail').addEventListener('click', copyMail);
 
 /* jump menu */
 const cmds = [
-  {l: 'FairFund', h: 'Section', go: '#p-ff'}, {l: 'Airy', h: 'Section', go: '#p-airy'}, {l: 'Health Dashboard', h: 'Section', go: '#p-health'},
+  {l: 'About', h: 'Section', go: '#about'}, {l: 'FairFund', h: 'Section', go: '#p-ff'}, {l: 'Airy', h: 'Section', go: '#p-airy'}, {l: 'Health Dashboard', h: 'Section', go: '#p-health'},
   {l: 'Timeline', h: 'Section', go: '#timeline'}, {l: 'Contact', h: 'Section', go: '#contact'},
   {l: 'Open FairFund', h: 'Site', url: 'https://nishants-lab.github.io/fairfund/'}, {l: 'Open Airy', h: 'Site', url: 'https://nishants-lab.github.io/airy/'}, {l: 'Open the Health Dashboard demo', h: 'Site', url: 'https://nishants-lab.github.io/health-dashboard-demo/'},
-  {l: 'Download Airy', h: 'GitHub', url: 'https://github.com/nishants-lab/airy/releases'}, {l: 'GitHub profile', h: 'GitHub', url: 'https://github.com/nishants-lab'},
+  {l: 'Download Airy', h: 'GitHub', url: 'https://github.com/nishants-lab/airy/releases'}, {l: 'GitHub profile', h: 'GitHub', url: 'https://github.com/nishants-lab'}, {l: 'Follow on X', h: 'X', url: 'https://x.com/NishantSinha_1'}, {l: 'Follow on Instagram', h: 'Instagram', url: 'https://www.instagram.com/nishantsinha_1/'},
   {l: 'Copy email address', h: 'Action', run: copyMail}
 ];
 const dlg = $('#k'), inp = $('#kInput'), list = $('#kList'); let shown = [], sel = 0;
